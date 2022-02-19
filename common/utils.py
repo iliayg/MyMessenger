@@ -1,9 +1,14 @@
 import sys
 import json
-from common.variables import MAX_PACKAGE_LENGTH, ENCODING
+import logging
+import logs.config_utils_log
+from common.variables import MAX_PACKAGE_LENGTH, ENCODING, ERROR
 from decorators import log
 from errors import IncorrectDataReceivedError, NonDictInputError
 sys.path.append('../')
+
+# utils log initialization
+LOGGER = logging.getLogger('utils')
 
 
 @log
@@ -13,6 +18,7 @@ def get_message(client):
 
     receives bytes and returns dictionary, else returns error
     """
+    # LOGGER.debug(f"\nChecking client message: '{client}'")
     encoded_responce = client.recv(MAX_PACKAGE_LENGTH)
     if isinstance(encoded_responce, bytes):
         json_response = encoded_responce.decode(ENCODING)
@@ -22,6 +28,7 @@ def get_message(client):
             return response
         else:
             raise IncorrectDataReceivedError
+
     else:
         raise IncorrectDataReceivedError
 

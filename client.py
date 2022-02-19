@@ -14,7 +14,6 @@ import threading
 
 # client log initialization
 LOGGER = logging.getLogger('client')
-fmtime = time.strftime("%H:%M:%S")
 
 
 @log

@@ -5,6 +5,7 @@ from common.variables import RESPONSE, ERROR, USER, ACCOUNT_NAME, TIME, ACTION, 
 from client import create_presence, process_response, ReqFieldMissingError, ServerError
 # sys.path.append(os.path.join(os.getcwd(), '..'))
 
+
 class TestClass(unittest.TestCase):
     def test_def_presence(self):
         """test for correct request"""

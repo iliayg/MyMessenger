@@ -1,4 +1,5 @@
 from server import process_client_message
+import sys
 
 
 # def mySum(*args):
@@ -19,9 +20,10 @@ from server import process_client_message
 # calling function with unpacking args
 # func(*args)
 
-message = []
-messages_list = []
-client = {}
-clients = {}
-names = {}
-message, messages_list, client, clients, names = process_client_message(message, messages_list, client, clients, names)
+# message = []
+# messages_list = []
+# client = {}
+# clients = {}
+# names = {}
+# message, messages_list, client, clients, names = process_client_message(message, messages_list, client, clients, names)
+sys.exc_info()
