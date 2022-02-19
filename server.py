@@ -16,7 +16,7 @@ LOGGER = logging.getLogger('server')
 @log
 def process_client_message(message, messages_list, client, clients, names):
     """gets and checks dict - client message"""
-    LOGGER.debug(f'\nChecking client message: {message}')
+    LOGGER.debug(f'\nChecking client message: {message} \n{client}')
     # if this is presence notification - gets and answers
     if ACTION in message and message[ACTION] == PRESENCE and TIME in message and USER in message:
         # if user is registered send message and close connection, else register him
@@ -38,6 +38,8 @@ def process_client_message(message, messages_list, client, clients, names):
         return
     # if client exit
     elif ACTION in message and message[ACTION] == EXIT and ACCOUNT_NAME in message:
+        print(message[TIME])
+        print(f"User '{message[ACCOUNT_NAME]}' has left the chat.")
         clients.remove(names[MESSAGE[ACCOUNT_NAME]])
         names[message[ACCOUNT_NAME]].close()
         del names[message[ACCOUNT_NAME]]
@@ -63,7 +65,7 @@ def process_message(message, names, listen_socks):
     elif message[DESTINATION] in names and names[message[DESTINATION]] not in listen_socks:
         raise ConnectionError
     else:
-        LOGGER.error(f'\nUser {message[DESTINATION]} is not registered in the server, sending failed.')
+        LOGGER.error(f"\nUser '{message[DESTINATION]}' is not registered in the server, sending failed.")
 
 
 @log
@@ -75,14 +77,12 @@ def arg_parser():
     namespace = parser.parse_args(sys.argv[1:])
     listen_address = namespace.a
     listen_port = namespace.p
-
     if not 1023 < listen_port < 65536:
         LOGGER.critical(
             f'\nClient attempts to connect to wrong port: {listen_port}.'
             f'Enabled ports are 1024 - 65535. Closing connection.'
         )
         sys.exit(1)
-
     return listen_address, listen_port
 
 
@@ -123,7 +123,7 @@ def main():
         except OSError:
             pass
 
-        # receive message, if error - remove client
+        # receive the message, if error - remove the client
         if recv_data_list:
             for client_with_message in recv_data_list:
                 try:
@@ -132,13 +132,13 @@ def main():
                 except Exception:
                     LOGGER.info(f'\nClient {client_with_message.getpeername()} disconnected from server.')
                     clients.remove(client_with_message)
-
         # if messages exist handle everyone
         for i in messages:
             try:
                 process_message(i, names, send_data_list)
+                print(f'({i[TIME]}) {i[SENDER]}:"{i[MESSAGE_TEXT]}"')
             except Exception:
-                LOGGER.exception('\nConnection with client with username {i[DESTINATION]} lost. ')
+                LOGGER.exception(f'\nConnection with client with username {i[DESTINATION]} lost. ')
                 clients.remove(names[i[DESTINATION]])
                 del names[i[DESTINATION]]
         messages.clear()

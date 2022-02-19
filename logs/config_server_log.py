@@ -7,7 +7,7 @@ sys.path.append('../')
 
 
 # logs formatter
-SERVER_FORMATTER = logging.Formatter(fmt='%(asctime)s %(levelname)s %(filename)s %(message)s', datefmt='%Y-%m-%d,%H:%M:%S\n')
+SERVER_FORMATTER = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(message)s', datefmt='%Y-%m-%d,%H:%M:%S\n')
 # logs filename preparing
 PATH = os.path.dirname(os.path.abspath(__file__))
 PATH = os.path.join(PATH, 'server.log')

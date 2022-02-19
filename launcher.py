@@ -4,10 +4,6 @@ import time
 from itertools import cycle
 
 
-# def get_name(i):
-#     return f'{random.getrandbits(128)}/{i}'
-
-
 PROCESSES = []
 while True:
     ACTION = input('Choose an action: q - quit, '
@@ -20,7 +16,7 @@ while True:
         time.sleep(0.5)
 
         count = 0
-        for el in cycle('ABC'):
+        for el in cycle('ab'):
             if count == 2:
                 break
             PROCESSES.append(subprocess.Popen(f'gnome-terminal -- python3 client.py -n {el}', shell=True))

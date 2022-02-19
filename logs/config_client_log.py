@@ -1,6 +1,7 @@
 import sys
 import os
 import logging
+import logging.handlers
 from common.variables import LOGGING_LEVEL
 sys.path.append('../')
 
@@ -14,7 +15,7 @@ PATH = os.path.join(PATH, 'client.log')
 STREAM_HANDLER = logging.StreamHandler(sys.stderr)
 STREAM_HANDLER.setFormatter(CLIENT_FORMATTER)
 STREAM_HANDLER.setLevel(logging.ERROR)
-LOG_FILE = logging.FileHandler(PATH, encoding='utf8')
+LOG_FILE = logging.handlers.TimedRotatingFileHandler(PATH, encoding='utf8', interval=1, when='D')
 LOG_FILE.setFormatter(CLIENT_FORMATTER)
 # create logger and set up
 LOGGER = logging.getLogger('client')
